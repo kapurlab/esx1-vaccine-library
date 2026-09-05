@@ -236,6 +236,16 @@ footer.end{
   font-size:13.5px; color:var(--muted); max-width:78ch
 }
 footer.end p{margin:0 0 9px}
+/* ---------- annotation sidebar ---------- */
+:root{--hyp:0px}
+body.hypothesis-sidebyside-active .wrap{
+  margin-left:0; max-width:max(320px,calc(100vw - var(--hyp) - 40px))
+}
+body.hyp-narrow .cols{grid-template-columns:1fr; gap:0}
+body.hyp-narrow nav.rail{display:none}
+body.hyp-narrow #jump{display:block}
+body.hyp-narrow .entry{display:block}
+
 @media (prefers-reduced-motion:reduce){*{animation:none !important; transition:none !important}}
 </style>
 
@@ -645,6 +655,21 @@ function apply(){
   spy();
 }
 apply();
+
+// hold the page clear of the Hypothesis sidebar, which overlays rather than reflows
+let hypRO;
+function hypSync(){
+  const sb=document.querySelector("hypothesis-sidebar");
+  const fr=sb&&sb.shadowRoot&&sb.shadowRoot.querySelector("iframe");
+  const open=document.body.classList.contains("hypothesis-sidebyside-active");
+  const w=open&&fr?fr.getBoundingClientRect().width:0;
+  document.documentElement.style.setProperty("--hyp",w+"px");
+  document.body.classList.toggle("hyp-narrow",open&&document.documentElement.clientWidth-w<1100);
+  if(fr&&!hypRO&&window.ResizeObserver){hypRO=new ResizeObserver(hypSync); hypRO.observe(fr);}
+}
+new MutationObserver(hypSync).observe(document.body,{attributes:true,attributeFilter:["class"]});
+addEventListener("resize",hypSync);
+hypSync();
 </script>
 
 <script type="application/json" class="js-hypothesis-config">
