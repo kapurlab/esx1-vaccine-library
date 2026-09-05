@@ -10,7 +10,7 @@
 <style>
 :root{
   --ground:#F4F6F8; --surface:#FFFFFF; --surface-2:#EDF0F4;
-  --ink:#141C25; --ink-2:#3D4C5A; --muted:#66757F;
+  --ink:#141C25; --ink-2:#3D4C5A; --muted:#5C6B75;
   --rule:#DDE3E9; --rule-2:#C8D1DA;
   --fuchsin:#A81A5E; --fuchsin-soft:#F3E2EB;
   --methylene:#25477A;
@@ -56,10 +56,10 @@ a{color:var(--methylene); text-decoration:none; border-bottom:1px solid transpar
 a:hover{border-bottom-color:currentColor}
 a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--fuchsin); outline-offset:2px; border-radius:2px}
 
-.wrap{max-width:1180px; margin:0 auto; padding:0 24px 96px}
+.wrap{max-width:1300px; margin:0 auto; padding:0 24px 96px}
 
 /* ---------- masthead ---------- */
-header.top{padding:56px 0 28px; border-bottom:2px solid var(--ink)}
+header.top{padding:40px 0 22px; border-bottom:2px solid var(--ink)}
 .eyebrow{
   font-family:var(--mono); font-size:11.5px; letter-spacing:.14em;
   text-transform:uppercase; color:var(--fuchsin); margin:0 0 14px
@@ -69,25 +69,35 @@ h1{
   line-height:1.1; margin:0 0 14px; text-wrap:balance; letter-spacing:-.01em
 }
 .standfirst{
-  font-family:var(--display); font-size:1.13rem; line-height:1.55; color:var(--ink-2);
-  max-width:62ch; margin:0
+  font-family:var(--display); font-size:clamp(1.06rem,.94rem + .42vw,1.36rem); line-height:1.55;
+  color:var(--ink-2); max-width:68ch; margin:0
 }
 .metabar{
-  display:flex; flex-wrap:wrap; gap:10px 26px; margin-top:24px;
+  display:flex; flex-wrap:wrap; gap:10px 26px; margin-top:18px;
   font-family:var(--mono); font-size:12px; color:var(--muted)
 }
 .metabar b{color:var(--ink); font-weight:500; font-variant-numeric:tabular-nums}
 .access{
-  display:flex; flex-wrap:wrap; align-items:center; gap:12px; margin:22px 0 0
+  display:flex; flex-wrap:wrap; align-items:center; gap:12px; margin:18px 0 0
 }
 .access a{
   font-family:var(--mono); font-size:12.5px; letter-spacing:.06em; text-transform:uppercase;
-  padding:9px 15px; color:var(--fuchsin); border:1px solid var(--fuchsin); border-radius:3px
+  padding:9px 15px; color:var(--fuchsin); border:1px solid var(--fuchsin); border-radius:3px;
+  white-space:nowrap
 }
 .access a:hover{background:var(--fuchsin-soft)}
 .access a.alt{color:var(--ink-2); border-color:var(--rule-2)}
 .access a.alt:hover{color:var(--methylene); border-color:var(--methylene); background:transparent}
-.access .note{font-family:var(--mono); font-size:12.5px; color:var(--ink-2)}
+.access .note{font-family:var(--mono); font-size:12.5px; color:var(--ink-2); flex:1 0 100%; margin:0}
+@media(min-width:1080px){
+  header.top{
+    display:grid; grid-template-columns:minmax(0,1fr) minmax(270px,330px);
+    column-gap:64px; align-items:start
+  }
+  .eyebrow,h1,.metabar{grid-column:1/-1}
+  .standfirst{grid-column:1; grid-row:3; max-width:none}
+  .access{grid-column:2; grid-row:3; margin:5px 0 0; align-content:flex-start}
+}
 
 /* ---------- access notice ---------- */
 .notice{
@@ -124,16 +134,22 @@ h1{
 .filters{display:flex; flex-wrap:wrap; gap:6px}
 .filters button{
   font-family:var(--mono); font-size:11.5px; letter-spacing:.06em; text-transform:uppercase;
-  padding:7px 11px; cursor:pointer; border-radius:3px;
+  padding:7px 11px; cursor:pointer; border-radius:3px; white-space:nowrap;
   background:var(--surface); color:var(--ink-2); border:1px solid var(--rule-2)
 }
 .filters button[aria-pressed="true"]{background:var(--ink); color:var(--ground); border-color:var(--ink)}
 .count{font-family:var(--mono); font-size:12px; color:var(--muted); margin-left:auto; font-variant-numeric:tabular-nums}
+#jump{
+  flex:1 0 100%; min-width:0; padding:9px 10px; font-family:var(--mono); font-size:12px;
+  background:var(--surface); color:var(--ink-2);
+  border:1px solid var(--rule-2); border-radius:3px
+}
+@media(min-width:1020px){#jump{display:none}}
 
 /* ---------- layout ---------- */
 .cols{display:grid; grid-template-columns:1fr; gap:0}
 @media(min-width:1020px){
-  .cols{grid-template-columns:210px 1fr; gap:56px; align-items:start}
+  .cols{grid-template-columns:200px 1fr; gap:48px; align-items:start}
   nav.rail{position:sticky; top:96px; padding-top:36px}
 }
 nav.rail{display:none}
@@ -145,6 +161,8 @@ nav.rail a{
 }
 nav.rail a:hover{color:var(--fuchsin)}
 nav.rail .n{font-family:var(--mono); font-size:11px; color:var(--muted); padding-top:2px; flex:none}
+nav.rail a.on{color:var(--fuchsin); font-weight:500}
+nav.rail a.on .n{color:var(--fuchsin)}
 
 /* ---------- sections ---------- */
 section.grp{padding-top:44px; scroll-margin-top:96px}
@@ -171,12 +189,20 @@ section.grp{padding-top:44px; scroll-margin-top:96px}
   font-weight:600; text-wrap:balance
 }
 .entry.key .e-title{font-size:1.18rem}
+.e-title a{color:inherit}
 .e-cite{font-size:13.5px; color:var(--muted); margin:0 0 9px}
 .e-cite em{font-style:italic; color:var(--ink-2)}
-.e-note{margin:0 0 11px; font-size:15px; line-height:1.62; color:var(--ink-2); max-width:74ch}
+.e-cite .chip{display:inline-block; margin-left:8px; vertical-align:1px}
+.e-note{margin:0 0 11px; font-size:15px; line-height:1.62; color:var(--ink-2); max-width:72ch}
 .entry:not(.key) .e-note{font-size:14px; color:var(--muted)}
 
 .e-foot{display:flex; flex-wrap:wrap; gap:7px; align-items:center}
+@media(min-width:1160px){
+  .entry{display:grid; grid-template-columns:minmax(0,1fr) 280px; column-gap:32px}
+  .e-title,.e-cite{grid-column:1/-1}
+  .e-note{grid-column:1; grid-row:3; margin-bottom:0}
+  .e-foot{grid-column:2; grid-row:3; align-self:start; align-content:flex-start}
+}
 .chip{
   font-family:var(--mono); font-size:10.5px; letter-spacing:.07em; text-transform:uppercase;
   padding:3px 7px; border-radius:2px; white-space:nowrap
@@ -189,10 +215,11 @@ section.grp{padding-top:44px; scroll-margin-top:96px}
 .chip.illc{background:var(--pmc-bg); color:var(--pmc)}
 .chip.file{background:var(--fuchsin-soft); color:var(--fuchsin)}
 .lnk{
-  font-family:var(--mono); font-size:11.5px; padding:3px 7px; border-radius:2px;
+  font-family:var(--mono); font-size:11.5px; padding:3px 7px; border-radius:2px; white-space:nowrap;
   background:var(--surface-2); color:var(--ink-2); border:1px solid var(--rule)
 }
 .lnk:hover{border-color:var(--methylene); color:var(--methylene)}
+@media(max-width:700px){.e-foot{gap:8px}.lnk{padding:7px 9px}}
 .lnk.drv{background:var(--fuchsin-soft); color:var(--fuchsin); border-color:transparent}
 .lnk.drv:hover{border-color:var(--fuchsin); color:var(--fuchsin)}
 .entry.key .lnk{background:var(--ground)}
@@ -223,9 +250,9 @@ img{max-width:100%}
   <p class="eyebrow">Kapur Lab · Penn State · reference shelf</p>
   <h1>ESX-1 Vaccine Library</h1>
   <p class="standfirst">The literature behind recombinant BCG expressing a heterologous ESX-1 secretion system as relates to bovine and human vaccine is compiled and annotated here. Links to the original records are provided for authorized users. For copyright purposes, nothing is redistributed here.</p>
-  <p class="access"><a href="https://drive.google.com/drive/folders/1PbqFcxgqkgAMoyNbTM2x5olwZ4bjDTML" target="_blank" rel="noopener">Request PDF access</a> <a class="alt" href="https://docs.google.com/spreadsheets/d/1Brz2rFIj089tXB50vayIApwt9XnP1Lsvv1P-tpZScTo/edit" target="_blank" rel="noopener">Suggest a paper or an edit</a> <span class="note">Collaborators on this project should request access to the full-text collection. One approval covers every entry.</span></p>
+  <p class="access"><a href="https://drive.google.com/drive/folders/1PbqFcxgqkgAMoyNbTM2x5olwZ4bjDTML" target="_blank" rel="noopener">Request PDF access</a> <a class="alt" href="https://docs.google.com/spreadsheets/d/1Brz2rFIj089tXB50vayIApwt9XnP1Lsvv1P-tpZScTo/edit" target="_blank" rel="noopener">Suggest a paper or an edit</a> <span class="note">Collaborators on this project: one approval covers every entry.</span></p>
   <div class="metabar">
-    <span><b id="m-total">97</b> references</span>
+    <span><b id="m-total">98</b> references</span>
     <span><b id="m-oa">0</b> open access</span>
     <span><b id="m-pmc">0</b> free in PMC</span>
     <span><b id="m-sub">0</b> subscription</span>
@@ -243,7 +270,8 @@ img{max-width:100%}
       <button data-f="pmc" aria-pressed="false">Free in PMC</button>
       <button data-f="sub" aria-pressed="false">Subscription</button>
     </div>
-    <span class="count" id="count"></span>
+    <span class="count" id="count" aria-live="polite"></span>
+    <select id="jump" aria-label="Jump to section"><option value="">Jump to section</option></select>
   </div>
 </div>
 
@@ -480,11 +508,16 @@ function entryHTML(r){
   const chips=[`<span class="chip ${a[0]}">${a[1]}</span>`];
   if(r.ill) chips.push(`<span class="chip illc">ILL scan</span>`);
   if(r.cap) chips.push(`<span class="chip capc">web capture</span>`);
+  const href = r.doi?`https://doi.org/${r.doi}`
+    : r.url?r.url
+    : r.pmc?`https://pmc.ncbi.nlm.nih.gov/articles/${r.pmc}/`
+    : r.pmid?`https://pubmed.ncbi.nlm.nih.gov/${r.pmid}/`:"";
+  const title = href?`<a href="${href}" target="_blank" rel="noopener">${r.ti}</a>`:r.ti;
   return `<article class="${cls}" data-access="${r.ac}" data-copy="${(r.ill||r.cap)?"caveat":"clean"}" data-key="${r.key?1:0}">
-    <h3 class="e-title">${r.ti}</h3>
-    <p class="e-cite">${esc(r.a)} · <em>${r.j}</em> ${r.y}${r.c?"; "+r.c:""}</p>
+    <h3 class="e-title">${title}</h3>
+    <p class="e-cite">${esc(r.a)} · <em>${r.j}</em> ${r.y}${r.c?"; "+r.c:""}${chips.join("")}</p>
     ${r.n?`<p class="e-note">${r.n}</p>`:""}
-    <div class="e-foot">${chips.join("")}${links.join("")}</div>
+    <div class="e-foot">${links.join("")}</div>
   </article>`;
 }
 
@@ -497,6 +530,14 @@ main.innerHTML=S.map(sec=>{
 }).join("")+`<p class="empty hidden" id="empty">No references match that filter.</p>`;
 
 rail.innerHTML=S.map((sec,i)=>`<li><a href="#${sec.k}"><span class="n">${String(i+1).padStart(2,"0")}</span><span>${sec.t}</span></a></li>`).join("");
+
+const jump=document.getElementById("jump");
+jump.insertAdjacentHTML("beforeend",S.map((sec,i)=>`<option value="${sec.k}">${String(i+1).padStart(2,"0")} · ${sec.t}</option>`).join(""));
+jump.addEventListener("change",()=>{
+  const t=jump.value&&document.getElementById(jump.value);
+  if(t) t.scrollIntoView({behavior:"smooth",block:"start"});
+  jump.value="";
+});
 
 document.getElementById("m-oa").textContent=R.filter(r=>r.ac==="oa").length;
 document.getElementById("m-pmc").textContent=R.filter(r=>r.ac==="pmc").length;
@@ -512,6 +553,21 @@ btns.forEach(b=>b.addEventListener("click",()=>{
   apply();
 }));
 q.addEventListener("input",apply);
+
+const railLinks=[...rail.querySelectorAll("a")];
+function spy(){
+  const secs=[...document.querySelectorAll("section.grp")].filter(s=>!s.classList.contains("hidden"));
+  let cur=secs[0];
+  for(const sec of secs){ if(sec.getBoundingClientRect().top<=140) cur=sec; }
+  const id=cur?cur.id:"";
+  railLinks.forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+id));
+}
+let ticking=false;
+addEventListener("scroll",()=>{
+  if(ticking) return;
+  ticking=true;
+  requestAnimationFrame(()=>{spy(); ticking=false;});
+},{passive:true});
 
 function apply(){
   const term=q.value.trim().toLowerCase();
@@ -529,6 +585,7 @@ function apply(){
   });
   document.getElementById("empty").classList.toggle("hidden",shown>0);
   countEl.textContent=shown+" of "+R.length+" shown";
+  spy();
 }
 apply();
 </script>
