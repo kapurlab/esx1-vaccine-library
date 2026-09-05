@@ -109,6 +109,11 @@ h1{
   color:var(--fuchsin); border-bottom:1px solid var(--fuchsin); font-weight:500
 }
 .notice .req a:hover{background:var(--fuchsin-soft)}
+.notice .req button{
+  float:right; font-family:var(--mono); font-size:12.5px; color:var(--muted);
+  background:none; border:0; padding:0; cursor:pointer; border-bottom:1px solid var(--rule-2)
+}
+.notice .req button:hover{color:var(--ink-2); border-bottom-color:var(--ink-2)}
 
 /* ---------- controls ---------- */
 .controls{
@@ -259,7 +264,7 @@ img{max-width:100%}
   <p class="eyebrow">Kapur Lab · Penn State · reference shelf</p>
   <h1>ESX-1 Vaccine Library</h1>
   <p class="standfirst">The literature behind recombinant BCG expressing a heterologous ESX-1 secretion system as relates to bovine and human vaccine is compiled and annotated here. Links to the original records are provided for authorized users. For copyright purposes, nothing is redistributed here.</p>
-  <p class="access"><a href="https://drive.google.com/drive/folders/1PbqFcxgqkgAMoyNbTM2x5olwZ4bjDTML" target="_blank" rel="noopener">Request PDF access</a> <a class="alt" href="https://docs.google.com/spreadsheets/d/1Brz2rFIj089tXB50vayIApwt9XnP1Lsvv1P-tpZScTo/edit" target="_blank" rel="noopener">Suggest a paper or an edit</a> <a class="alt" href="https://docs.google.com/document/d/1coxDj2VdnmNfznlJa40BEZYy--kVA1GpciO2UuEzooA/edit" target="_blank" rel="noopener">Join the annotation group</a> <span class="note">Access is granted to the address we have on record for the weekly calls, and one approval covers every entry. To use a different address, send a request and we will add it.</span><span class="note">Comments run through Hypothesis in the private Beyond BCG group. The invite sits in the shared Drive folder, so the same approval covers it. Select that group in the sidebar before you annotate.</span></p>
+  <p class="access"><a href="https://drive.google.com/drive/folders/1PbqFcxgqkgAMoyNbTM2x5olwZ4bjDTML" target="_blank" rel="noopener">Request PDF access</a> <a class="alt" href="https://docs.google.com/spreadsheets/d/1Brz2rFIj089tXB50vayIApwt9XnP1Lsvv1P-tpZScTo/edit" target="_blank" rel="noopener">Suggest a paper or an edit</a> <a class="alt" href="https://docs.google.com/document/d/1coxDj2VdnmNfznlJa40BEZYy--kVA1GpciO2UuEzooA/edit" target="_blank" rel="noopener">Join the annotation group</a> <span class="note">Access is granted to the address we have on record for the weekly calls, and one approval covers every entry. To use a different address, send a request and we will add it.</span></p>
   <div class="metabar">
     <span><b id="m-total">98</b> references</span>
     <span><b id="m-oa">0</b> open access</span>
@@ -268,6 +273,12 @@ img{max-width:100%}
     <span>compiled <b>5 Sep 2026</b></span>
   </div>
 </header>
+
+<div class="notice" id="howto">
+  <h2>Commenting</h2>
+  <p>Comments on this page are Hypothesis annotations, held in the private Beyond BCG group. Open the sidebar with the arrow at the top right, sign in, then change the group from Public to Beyond BCG. Selecting any text then raises an Annotate button.</p>
+  <p class="req"><button type="button" id="howto-x">Hide this</button><a href="https://docs.google.com/document/d/1coxDj2VdnmNfznlJa40BEZYy--kVA1GpciO2UuEzooA/edit" target="_blank" rel="noopener">Join the annotation group</a>. The invite sits in the shared Drive folder, so the approval you already have covers it.</p>
+</div>
 
 <div class="controls">
   <div class="controls-row">
@@ -644,6 +655,14 @@ function apply(){
   spy();
 }
 apply();
+
+// the commenting notice stays hidden once dismissed
+const howto=document.getElementById("howto"), howtoX=document.getElementById("howto-x");
+try{ if(localStorage.getItem("esx1-howto")==="hidden") howto.hidden=true; }catch(e){}
+howtoX.addEventListener("click",()=>{
+  howto.hidden=true;
+  try{ localStorage.setItem("esx1-howto","hidden"); }catch(e){}
+});
 
 // hold the page clear of the Hypothesis sidebar, which overlays rather than reflows
 let hypRO;
