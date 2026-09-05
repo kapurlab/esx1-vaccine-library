@@ -152,6 +152,11 @@ nav.rail a{
 }
 nav.rail a:hover{color:var(--fuchsin)}
 nav.rail .n{font-family:var(--mono); font-size:11px; color:var(--muted); padding-top:2px; flex:none}
+nav.rail .c{
+  margin-left:auto; padding-top:2px; flex:none; align-self:flex-start;
+  font-family:var(--mono); font-size:11px; color:var(--muted); font-variant-numeric:tabular-nums
+}
+nav.rail a.off{opacity:.4; pointer-events:none}
 nav.rail a.on{color:var(--fuchsin); font-weight:500}
 nav.rail a.on .n{color:var(--fuchsin)}
 
@@ -163,8 +168,8 @@ section.grp{padding-top:44px; scroll-margin-top:96px}
   margin:0 0 4px; letter-spacing:-.01em; text-wrap:balance
 }
 .grp-head p{
-  margin:0; font-size:clamp(14px,13.1px + .28vw,16.5px); color:var(--muted);
-  max-width:min(100%,84ch)
+  margin:0; font-size:clamp(14px,12.6px + .4vw,18px); color:var(--muted);
+  max-width:100%
 }
 
 /* ---------- entries ---------- */
@@ -219,6 +224,11 @@ section.grp{padding-top:44px; scroll-margin-top:96px}
 .entry.key .lnk{background:var(--ground)}
 
 .empty{padding:48px 0; color:var(--muted); font-family:var(--mono); font-size:13px}
+.empty b{color:var(--ink-2); font-weight:500}
+#clearf{
+  font-family:var(--mono); font-size:13px; color:var(--fuchsin); background:none;
+  border:0; border-bottom:1px solid currentColor; padding:0; cursor:pointer
+}
 .hidden{display:none !important}
 
 footer.end{
@@ -258,8 +268,8 @@ img{max-width:100%}
   <div class="controls-row">
     <input id="q" type="search" placeholder="Search author, title, organism, method…" aria-label="Search references">
     <div class="filters" role="group" aria-label="Filter by access">
-      <button data-f="all" aria-pressed="true">All</button>
-      <button data-f="key" aria-pressed="false">Key papers</button>
+      <button data-f="all" aria-pressed="false">All</button>
+      <button data-f="key" aria-pressed="true">Key papers</button>
       <button data-f="oa" aria-pressed="false">Open access</button>
       <button data-f="pmc" aria-pressed="false">Free in PMC</button>
       <button data-f="sub" aria-pressed="false">Subscription</button>
@@ -523,10 +533,11 @@ main.innerHTML=S.map(sec=>{
   </section>`;
 }).join("")+`<p class="empty hidden" id="empty">No references match that filter.</p>`;
 
-rail.innerHTML=S.map((sec,i)=>`<li><a href="#${sec.k}"><span class="n">${String(i+1).padStart(2,"0")}</span><span>${sec.t}</span></a></li>`).join("");
+rail.innerHTML=S.map((sec,i)=>`<li><a href="#${sec.k}" data-sec="${sec.k}"><span class="n">${String(i+1).padStart(2,"0")}</span><span>${sec.t}</span><span class="c"></span></a></li>`).join("");
 
 const jump=document.getElementById("jump");
-jump.insertAdjacentHTML("beforeend",S.map((sec,i)=>`<option value="${sec.k}">${String(i+1).padStart(2,"0")} · ${sec.t}</option>`).join(""));
+jump.insertAdjacentHTML("beforeend",S.map((sec,i)=>`<option value="${sec.k}" data-label="${String(i+1).padStart(2,"0")} · ${sec.t}">${String(i+1).padStart(2,"0")} · ${sec.t}</option>`).join(""));
+const jumpOpts=[...jump.options].slice(1);
 jump.addEventListener("change",()=>{
   const t=jump.value&&document.getElementById(jump.value);
   if(t) t.scrollIntoView({behavior:"smooth",block:"start"});
@@ -538,7 +549,7 @@ document.getElementById("m-pmc").textContent=R.filter(r=>r.ac==="pmc").length;
 document.getElementById("m-sub").textContent=R.filter(r=>r.ac==="sub").length;
 document.getElementById("m-total").textContent=R.length;
 
-let filter="all";
+let filter="key";
 const q=document.getElementById("q"), countEl=document.getElementById("count");
 const btns=[...document.querySelectorAll(".filters button")];
 btns.forEach(b=>b.addEventListener("click",()=>{
@@ -547,6 +558,11 @@ btns.forEach(b=>b.addEventListener("click",()=>{
   apply();
 }));
 q.addEventListener("input",apply);
+
+const emptyEl=document.getElementById("empty");
+emptyEl.addEventListener("click",e=>{
+  if(e.target.id==="clearf") btns.find(b=>b.dataset.f==="all").click();
+});
 
 const railLinks=[...rail.querySelectorAll("a")];
 function spy(){
@@ -566,6 +582,7 @@ addEventListener("scroll",()=>{
 function apply(){
   const term=q.value.trim().toLowerCase();
   let shown=0;
+  const counts={};
   document.querySelectorAll("section.grp").forEach(sec=>{
     let secShown=0;
     sec.querySelectorAll(".entry").forEach(e=>{
@@ -576,8 +593,25 @@ function apply(){
       if(ok){secShown++; shown++;}
     });
     sec.classList.toggle("hidden",secShown===0);
+    counts[sec.id]=secShown;
   });
-  document.getElementById("empty").classList.toggle("hidden",shown>0);
+  railLinks.forEach(a=>{
+    const n=counts[a.dataset.sec]||0;
+    a.querySelector(".c").textContent=n||"";
+    a.classList.toggle("off",n===0);
+  });
+  jumpOpts.forEach(o=>{
+    const n=counts[o.value]||0;
+    o.disabled=n===0;
+    o.textContent=o.dataset.label+" ("+n+")";
+  });
+  if(shown===0){
+    const lbl=btns.find(b=>b.dataset.f===filter);
+    emptyEl.innerHTML = filter==="all"
+      ? "No references match that search."
+      : `Nothing under <b>${lbl.textContent}</b> matches that search. <button type="button" id="clearf">Search all ${R.length} references</button>`;
+  }
+  emptyEl.classList.toggle("hidden",shown>0);
   countEl.textContent=shown+" of "+R.length+" shown";
   spy();
 }
