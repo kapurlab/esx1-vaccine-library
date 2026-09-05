@@ -82,3 +82,8 @@ results, or anything from a manuscript under review.
 Full texts live in a shared Google Drive folder, not in this repo. Drive
 permissions control who can open them, and the `PDF in Drive` links fail by
 design for anyone without folder access. Never commit publisher PDFs here.
+
+Access is granted to the address we have on record for the weekly calls, and
+one approval covers every entry. To use a different address, send a request
+and we will add it. A request arriving from an unrecognized address is usually
+someone signed in to Google under a second account.
