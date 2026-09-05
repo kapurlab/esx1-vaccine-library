@@ -29,7 +29,7 @@ you want, in the order you want it to appear.
     {s:"bovine", key:1, a:"Fromsa A, Willgert K, Srinivasan S, et al.",
      y:2024, ti:"BCG vaccination reduces bovine tuberculosis transmission",
      j:"Science", c:"383(6690):eadl3962",
-     doi:"10.1126/science.adl3962", pmid:"38452088", pmc:"PMC12345678",
+     doi:"10.1126/science.adl3962", pmid:"38547287", pmc:"PMC12345678",
      ac:"oa", drv:"<google-drive-file-id>",
      n:"Annotation goes here."},
 
