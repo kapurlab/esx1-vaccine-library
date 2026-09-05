@@ -77,6 +77,24 @@ Discussion belongs in the lab's Google Group, not here. This repository is
 public, so issues are world-readable: do not post unpublished data, embargoed
 results, or anything from a manuscript under review.
 
+## Comments
+
+Comments are Hypothesis annotations. The page loads the Hypothesis client, so a
+reader can open the sidebar without installing anything. Writing an annotation
+needs a Hypothesis account.
+
+Discussion belongs in the private `Beyond BCG` group, not the public layer.
+Anything posted to Public is world-readable and appears in Hypothesis search.
+Select the group in the sidebar before you write.
+
+The group's invite link is not published here, and it should not be. Clicking
+that link and logging in joins the group at once, with no approval step, so
+anyone holding it can read every annotation in the group. Ask for it by email.
+
+Annotations anchor to quoted text. Rewriting an entry's annotation orphans any
+comment attached to the old wording, so expect to lose anchors when text is
+revised.
+
 ## PDFs
 
 Full texts live in a shared Google Drive folder, not in this repo. Drive
