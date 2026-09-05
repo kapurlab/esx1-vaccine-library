@@ -87,9 +87,11 @@ Discussion belongs in the private `Beyond BCG` group, not the public layer.
 Anything posted to Public is world-readable and appears in Hypothesis search.
 Select the group in the sidebar before you write.
 
-The group's invite link is not published here, and it should not be. Clicking
-that link and logging in joins the group at once, with no approval step, so
-anyone holding it can read every annotation in the group. Ask for it by email.
+The join link is not published here, and it should not be. Clicking that link
+and logging in joins the group at once, with no approval step, so anyone holding
+it can read every annotation. It lives in a document inside the shared Drive
+folder, and the `Join the annotation group` link in the masthead points at that
+document. Drive decides who may open it, which a static page cannot do.
 
 Annotations anchor to quoted text. Rewriting an entry's annotation orphans any
 comment attached to the old wording, so expect to lose anchors when text is
